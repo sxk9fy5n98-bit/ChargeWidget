@@ -388,4 +388,21 @@ final class BatteryManager: ObservableObject {
         let fetchOK = await fetchDeviceBatteries(clearLastError: false)
         return saveOK && fetchOK
     }
+
+    func deleteDevice(_ device: DeviceBattery, clearLastError: Bool = true) async -> Bool {
+        if clearLastError { lastError = nil }
+        let recordID = CKRecord.ID(recordName: device.deviceID)
+
+        do {
+            _ = try await withCloudKitRetry(operationDescription: "delete record") {
+                try await database.deleteRecord(withID: recordID)
+            }
+            records.removeAll { $0.id == device.id || $0.deviceID == device.deviceID }
+            persistRecordsToAppGroup()
+            return true
+        } catch {
+            lastError = error.localizedDescription
+            return false
+        }
+    }
 }

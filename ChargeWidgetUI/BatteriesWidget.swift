@@ -101,6 +101,7 @@ struct BatteriesWidgetView: View {
 struct BatteryGridView: View {
     let batteries: [DeviceBattery]
     let columns: Int
+    @Environment(\.widgetFamily) private var family
 
     private var gridItems: [GridItem] {
         Array(repeating: GridItem(.flexible(), spacing: 8), count: columns)
@@ -109,7 +110,7 @@ struct BatteryGridView: View {
     var body: some View {
         LazyVGrid(columns: gridItems, spacing: 10) {
             ForEach(batteries) { battery in
-                BatteryRingCell(battery: battery)
+                BatteryRingCell(battery: battery, family: family)
             }
         }
         .padding(4)
@@ -118,31 +119,37 @@ struct BatteryGridView: View {
 
 struct BatteryRingCell: View {
     let battery: DeviceBattery
+    let family: WidgetFamily
 
     var body: some View {
         VStack(spacing: 4) {
-            Gauge(value: battery.batteryLevel.clamped(to: 0...1)) {
-                Image(systemName: battery.deviceSymbolName)
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(ringColor)
-            } currentValueLabel: {
-                Text("\(battery.percentageValue)")
-                    .font(.system(.caption2, design: .rounded).weight(.bold))
-                    .monospacedDigit()
-                    .minimumScaleFactor(0.7)
-                    .foregroundStyle(battery.isStale ? .secondary : .primary)
-            }
-            .gaugeStyle(.accessoryCircularCapacity)
-            .tint(ringColor)
-            .opacity(battery.isStale ? 0.4 : 1.0)
-            .overlay(alignment: .topTrailing) {
+            ZStack(alignment: .topTrailing) {
+                Gauge(value: battery.batteryLevel.clamped(to: 0...1)) {
+                    Image(systemName: battery.deviceSymbolName)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(ringColor)
+                } currentValueLabel: {
+                    Text("\(battery.percentageValue)")
+                        .font(.system(.caption2, design: .rounded).weight(.bold))
+                        .monospacedDigit()
+                        .minimumScaleFactor(0.7)
+                        .foregroundStyle(battery.isStale ? .secondary : .primary)
+                }
+                .gaugeStyle(.accessoryCircularCapacity)
+                .tint(ringColor)
+                .opacity(battery.isStale ? 0.4 : 1.0)
+
                 if battery.isCharging {
-                    Image(systemName: "bolt.fill")
-                        .font(.system(size: 8, weight: .bold))
-                        .foregroundStyle(.yellow)
-                        .padding(2)
-                        .background(.thinMaterial, in: Circle())
-                        .offset(x: 2, y: -2)
+                    ZStack {
+                        Image(systemName: "bolt.fill")
+                            .font(.system(size: boltMetrics.strokeSize, weight: .bold))
+                            .foregroundStyle(.black)
+                            .offset(x: boltMetrics.strokeOffsetX, y: boltMetrics.strokeOffsetY)
+                        Image(systemName: "bolt.fill")
+                            .font(.system(size: boltMetrics.fillSize, weight: .bold))
+                            .foregroundStyle(.white)
+                    }
+                    .offset(x: boltMetrics.positionX, y: boltMetrics.positionY)
                 }
             }
             .accessibilityLabel(accessibilityText)
@@ -174,7 +181,7 @@ struct BatteryRingCell: View {
 
     private var ringColor: Color {
         if battery.isLowPowerMode {
-            return battery.isStale ? .yellow.opacity(0.45) : .yellow
+            return Color.yellow
         }
         let base: Color
         switch battery.batteryLevel {
@@ -184,6 +191,56 @@ struct BatteryRingCell: View {
         }
         return battery.isStale ? base.opacity(0.45) : base
     }
+
+    private var boltMetrics: BoltMetrics {
+        switch family {
+        case .systemSmall:
+            return BoltMetrics(
+                fillSize: 7.5,
+                strokeSize: 8.7,
+                positionX: 2.0,
+                positionY: -1.2,
+                strokeOffsetX: 0.5,
+                strokeOffsetY: 0.5
+            )
+        case .systemMedium:
+            return BoltMetrics(
+                fillSize: 8.0,
+                strokeSize: 9.2,
+                positionX: 2.3,
+                positionY: -1.6,
+                strokeOffsetX: 0.55,
+                strokeOffsetY: 0.55
+            )
+        case .systemLarge:
+            return BoltMetrics(
+                fillSize: 8.4,
+                strokeSize: 9.6,
+                positionX: 2.6,
+                positionY: -1.8,
+                strokeOffsetX: 0.6,
+                strokeOffsetY: 0.6
+            )
+        default:
+            return BoltMetrics(
+                fillSize: 8.0,
+                strokeSize: 9.2,
+                positionX: 2.3,
+                positionY: -1.6,
+                strokeOffsetX: 0.55,
+                strokeOffsetY: 0.55
+            )
+        }
+    }
+}
+
+private struct BoltMetrics {
+    let fillSize: CGFloat
+    let strokeSize: CGFloat
+    let positionX: CGFloat
+    let positionY: CGFloat
+    let strokeOffsetX: CGFloat
+    let strokeOffsetY: CGFloat
 }
 
 struct EmptyBatteriesView: View {

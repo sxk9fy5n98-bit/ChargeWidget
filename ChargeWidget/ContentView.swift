@@ -9,85 +9,73 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject private var batteryManager = BatteryManager.shared
-
-    private var batteryPercentFormatter: NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .percent
-        formatter.maximumFractionDigits = 0
-        return formatter
-    }
+    @State private var cachedDevices: [DeviceBattery] = SharedBatteryStore.load()
 
     var body: some View {
         NavigationStack {
             List {
-                Section("This Device") {
-                    HStack {
-                        Label(batteryManager.currentDeviceName, systemImage: "laptopcomputer.and.iphone")
-                        Spacer()
-                        Text(batteryPercentFormatter.string(from: NSNumber(value: batteryManager.currentBatteryLevel)) ?? "—")
-                            .foregroundStyle(.secondary)
-                            .monospacedDigit()
+                Section {
+                    Button {
+                        Task { _ = await batteryManager.refreshAndSave() }
+                    } label: {
+                        Label("Force Sync", systemImage: "arrow.triangle.2.circlepath.circle.fill")
+                            .frame(maxWidth: .infinity)
                     }
+                    .buttonStyle(.borderedProminent)
                 }
 
-                Section("Synced Devices") {
-                    if batteryManager.isLoading && batteryManager.records.isEmpty {
+                Section("Devices") {
+                    if batteryManager.isLoading && cachedDevices.isEmpty {
                         ProgressView("Loading…")
-                    } else if batteryManager.records.isEmpty {
+                    } else if cachedDevices.isEmpty {
                         ContentUnavailableView(
                             "No Records",
                             systemImage: "battery.0",
-                            description: Text("Save this device’s battery level to CloudKit to see it here.")
+                            description: Text("Run Force Sync to load batteries from CloudKit.")
                         )
                     } else {
-                        ForEach(batteryManager.records) { record in
+                        ForEach(cachedDevices) { record in
                             DeviceBatteryRow(record: record)
                         }
+                        .onDelete(perform: deleteRows)
                     }
                 }
 
                 if let error = batteryManager.lastError {
-                    Section("CloudKit Connection") {
-                        ContentUnavailableView(
-                            "Sync Failed",
-                            systemImage: "icloud.slash",
-                            description: Text(error)
-                        )
-
-                        Button {
-                            Task { _ = await batteryManager.refreshAndSave() }
-                        } label: {
-                            Label("Retry Sync", systemImage: "arrow.clockwise")
-                        }
-                        .buttonStyle(.borderedProminent)
+                    Section("Connection Error") {
+                        Label(error, systemImage: "icloud.slash")
+                            .foregroundStyle(.red)
+                            .font(.footnote)
                     }
                 }
             }
             .navigationTitle("ChargeWidget")
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        Task { _ = await batteryManager.refreshAndSave() }
-                    } label: {
-                        Label("Save & Refresh", systemImage: "arrow.triangle.2.circlepath")
-                    }
-                }
-                ToolbarItem(placement: .automatic) {
-                    Button {
-                        Task { _ = await batteryManager.fetchDeviceBatteries() }
-                    } label: {
-                        Label("Fetch", systemImage: "icloud.and.arrow.down")
-                    }
-                }
-            }
             .refreshable {
                 _ = await batteryManager.fetchDeviceBatteries()
+            }
+            .onReceive(batteryManager.$records) { records in
+                cachedDevices = records
             }
             .task {
                 batteryManager.currentBatteryLevel = BatteryManager.readLocalBatteryLevel()
                 batteryManager.currentDeviceName = BatteryManager.localDeviceName()
                 _ = await batteryManager.fetchDeviceBatteries()
+                cachedDevices = SharedBatteryStore.load()
             }
+        }
+    }
+
+    private func deleteRows(at offsets: IndexSet) {
+        let devices = offsets.compactMap { idx in
+            cachedDevices.indices.contains(idx) ? cachedDevices[idx] : nil
+        }
+        guard devices.isEmpty == false else { return }
+
+        Task {
+            for device in devices {
+                _ = await batteryManager.deleteDevice(device, clearLastError: false)
+            }
+            cachedDevices = SharedBatteryStore.load()
         }
     }
 }
@@ -96,10 +84,17 @@ struct DeviceBatteryRow: View {
     let record: DeviceBattery
 
     var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
+        HStack(alignment: .center, spacing: 12) {
+            Image(systemName: record.deviceSymbolName)
+                .font(.title3)
+                .foregroundStyle(record.isLowPowerMode ? .yellow : batteryColor(for: record.batteryLevel))
+
+            VStack(alignment: .leading, spacing: 3) {
                 Text(record.deviceName)
                     .font(.headline)
+                Text(record.isCharging ? "Charging" : "Not Charging")
+                    .font(.caption)
+                    .foregroundStyle(record.isCharging ? .green : .secondary)
                 Text(record.timestamp, style: .relative)
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -111,7 +106,7 @@ struct DeviceBatteryRow: View {
         }
         .padding(.vertical, 2)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(record.deviceName), \(record.percentageText)")
+        .accessibilityLabel("\(record.deviceName), \(record.percentageText), \(record.isCharging ? "charging" : "not charging")")
     }
 
     private func batteryColor(for level: Double) -> Color {

@@ -112,7 +112,8 @@ final class AppDelegate: NSObject, WKExtensionDelegate {
             .scheduleBackgroundRefresh(
                 withPreferredDate: Date(timeIntervalSinceNow: SharedConstants.backgroundBatteryRefreshInterval),
                 userInfo: nil
-            ) { error in
+            ) { [weak self] error in
+                guard let self else { return }
                 self.isSchedulingRefresh = false
                 if let error {
                     Task { @MainActor in
@@ -160,7 +161,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         scheduler.tolerance = SharedConstants.backgroundBatteryRefreshTolerance
 
         scheduler.schedule { completion in
-            Task {
+            Task { [weak self] in
+                guard self != nil else {
+                    completion(.deferred)
+                    return
+                }
                 let ok = await BatteryManager.shared.refreshAndSave()
                 completion(ok ? .finished : .deferred)
             }
