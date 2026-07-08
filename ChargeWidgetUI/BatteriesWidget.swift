@@ -305,6 +305,7 @@ private extension Comparable {
     }
 }
 
+#if os(iOS) || os(macOS)
 #Preview("Medium", as: .systemMedium) {
     BatteriesWidget()
 } timeline: {
@@ -324,3 +325,22 @@ private extension Comparable {
 } timeline: {
     BatteriesEntry(date: .now, batteries: [])
 }
+#elseif os(watchOS)
+#Preview("Circular", as: .accessoryCircular) {
+    BatteriesWidget()
+} timeline: {
+    BatteriesEntry(
+        date: .now,
+        batteries: [
+            DeviceBattery(id: "1", deviceID: "1", deviceName: "iPhone", batteryLevel: 0.72, isCharging: true, isLowPowerMode: false, timestamp: .now),
+            DeviceBattery(id: "2", deviceID: "2", deviceName: "Apple Watch", batteryLevel: 0.45, isCharging: false, isLowPowerMode: true, timestamp: .now.addingTimeInterval(-3 * 60 * 60))
+        ]
+    )
+}
+
+#Preview("Empty", as: .accessoryRectangular) {
+    BatteriesWidget()
+} timeline: {
+    BatteriesEntry(date: .now, batteries: [])
+}
+#endif
