@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
-    <g transform="matrix(1.400358,0,0,1.571565,-140.674364,-203.153345)">
-        <g id="Template---App-Icons">
-            <path d="M456.371,209.28C628.01,209.28 767.359,320.327 767.359,457.105C767.359,593.883 628.01,704.929 456.371,704.929C284.732,704.929 145.383,593.883 145.383,457.105C145.383,320.327 284.732,209.28 456.371,209.28ZM456.371,333.193C542.191,333.193 611.865,388.716 611.865,457.105C611.865,525.494 542.191,581.017 456.371,581.017C370.552,581.017 300.877,525.494 300.877,457.105C300.877,388.716 370.552,333.193 456.371,333.193Z" style="fill:rgb(235,235,235);stroke:black;stroke-width:13.03px;"/>
-        </g>
-    </g>
-</svg>
