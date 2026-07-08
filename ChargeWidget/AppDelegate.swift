@@ -85,7 +85,7 @@ final class AppDelegate: NSObject, WKExtensionDelegate {
     func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {
         for task in backgroundTasks {
             guard let refreshTask = task as? WKApplicationRefreshBackgroundTask else {
-                task.setTaskCompletedWithSnapshot(nil)
+                task.setTaskCompletedWithSnapshot(false)
                 continue
             }
 
@@ -95,7 +95,7 @@ final class AppDelegate: NSObject, WKExtensionDelegate {
 
             Task {
                 let ok = await BatteryManager.shared.refreshAndSave()
-                refreshTask.setTaskCompletedWithSnapshot(nil)
+                refreshTask.setTaskCompletedWithSnapshot(false)
                 if ok == false {
                     // Keep lastError for the UI when the app next foregrounds.
                 }
