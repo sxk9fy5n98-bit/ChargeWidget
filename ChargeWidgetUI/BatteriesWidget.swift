@@ -59,7 +59,11 @@ struct BatteriesWidget: Widget {
         }
         .configurationDisplayName("Batteries")
         .description("See battery levels for your devices.")
+        #if os(iOS) || os(macOS)
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
+        #elseif os(watchOS)
+        .supportedFamilies([.accessoryCircular, .accessoryRectangular])
+        #endif
     }
 }
 
@@ -77,18 +81,30 @@ struct BatteriesWidgetView: View {
 
     private var columnCount: Int {
         switch family {
+        #if os(iOS) || os(macOS)
         case .systemSmall: return 2
         case .systemMedium: return 4
         case .systemLarge: return 4
+        #endif
+        #if os(watchOS)
+        case .accessoryCircular: return 1
+        case .accessoryRectangular: return 2
+        #endif
         default: return 2
         }
     }
 
     private var maxItems: Int {
         switch family {
+        #if os(iOS) || os(macOS)
         case .systemSmall: return 4
         case .systemMedium: return 4
         case .systemLarge: return 8
+        #endif
+        #if os(watchOS)
+        case .accessoryCircular: return 1
+        case .accessoryRectangular: return 2
+        #endif
         default: return 4
         }
     }
@@ -194,6 +210,7 @@ struct BatteryRingCell: View {
 
     private var boltMetrics: BoltMetrics {
         switch family {
+        #if os(iOS) || os(macOS)
         case .systemSmall:
             return BoltMetrics(
                 fillSize: 7.5,
@@ -221,6 +238,27 @@ struct BatteryRingCell: View {
                 strokeOffsetX: 0.6,
                 strokeOffsetY: 0.6
             )
+        #endif
+        #if os(watchOS)
+        case .accessoryCircular:
+            return BoltMetrics(
+                fillSize: 7.4,
+                strokeSize: 8.6,
+                positionX: 2.0,
+                positionY: -1.3,
+                strokeOffsetX: 0.5,
+                strokeOffsetY: 0.5
+            )
+        case .accessoryRectangular:
+            return BoltMetrics(
+                fillSize: 7.8,
+                strokeSize: 9.0,
+                positionX: 2.2,
+                positionY: -1.5,
+                strokeOffsetX: 0.55,
+                strokeOffsetY: 0.55
+            )
+        #endif
         default:
             return BoltMetrics(
                 fillSize: 8.0,
