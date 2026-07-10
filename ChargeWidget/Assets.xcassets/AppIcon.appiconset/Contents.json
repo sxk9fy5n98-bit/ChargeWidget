@@ -7,12 +7,6 @@
       "size" : "1024x1024"
     },
     {
-      "filename" : "AppIcon-watch-1024.png",
-      "idiom" : "universal",
-      "platform" : "watchos",
-      "size" : "1024x1024"
-    },
-    {
       "filename" : "AppIcon-mac-16.png",
       "idiom" : "mac",
       "scale" : "1x",
