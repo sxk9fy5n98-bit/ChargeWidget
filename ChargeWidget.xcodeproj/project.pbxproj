@@ -10,6 +10,7 @@
 		A10000012FFE46E000EB61D6 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10000022FFE46E000EB61D6 /* WidgetKit.framework */; };
 		A10000032FFE46E000EB61D6 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10000042FFE46E000EB61D6 /* SwiftUI.framework */; };
 		A10000052FFE46E000EB61D6 /* ChargeWidgetUI.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A10000062FFE46E000EB61D6 /* ChargeWidgetUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B20000012FFE46E000EB61D6 /* ChargeWidget.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 38CF6DF72FFE46E000EB61D6 /* ChargeWidget.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -19,6 +20,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = A10000082FFE46E000EB61D6;
 			remoteInfo = ChargeWidgetUI;
+		};
+		B20000022FFE46E000EB61D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 38CF6DEF2FFE46E000EB61D6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 38CF6DF62FFE46E000EB61D6;
+			remoteInfo = ChargeWidget;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -34,6 +42,17 @@
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B20000032FFE46E000EB61D6 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B20000012FFE46E000EB61D6 /* ChargeWidget.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +60,8 @@
 		A10000022FFE46E000EB61D6 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		A10000042FFE46E000EB61D6 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		A10000062FFE46E000EB61D6 /* ChargeWidgetUI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ChargeWidgetUI.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B20000042FFE46E000EB61D6 /* ChargeWidgetContainer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChargeWidgetContainer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B20000052FFE46E000EB61D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -110,6 +131,7 @@
 				38CF6DF92FFE46E000EB61D6 /* ChargeWidget */,
 				A100000B2FFE46E000EB61D6 /* ChargeWidgetUI */,
 				A100000C2FFE46E000EB61D6 /* Shared */,
+				B20000062FFE46E000EB61D6 /* ChargeWidgetContainer */,
 				A100000E2FFE46E000EB61D6 /* Frameworks */,
 				38CF6DF82FFE46E000EB61D6 /* Products */,
 			);
@@ -118,6 +140,7 @@
 		38CF6DF82FFE46E000EB61D6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				B20000042FFE46E000EB61D6 /* ChargeWidgetContainer.app */,
 				38CF6DF72FFE46E000EB61D6 /* ChargeWidget.app */,
 				A10000062FFE46E000EB61D6 /* ChargeWidgetUI.appex */,
 			);
@@ -131,6 +154,14 @@
 				A10000042FFE46E000EB61D6 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B20000062FFE46E000EB61D6 /* ChargeWidgetContainer */ = {
+			isa = PBXGroup;
+			children = (
+				B20000052FFE46E000EB61D6 /* Info.plist */,
+			);
+			path = ChargeWidgetContainer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -184,6 +215,25 @@
 			productReference = A10000062FFE46E000EB61D6 /* ChargeWidgetUI.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		B20000072FFE46E000EB61D6 /* ChargeWidgetContainer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B200000B2FFE46E000EB61D6 /* Build configuration list for PBXNativeTarget "ChargeWidgetContainer" */;
+			buildPhases = (
+				B20000082FFE46E000EB61D6 /* Resources */,
+				B20000032FFE46E000EB61D6 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B20000092FFE46E000EB61D6 /* PBXTargetDependency */,
+			);
+			name = ChargeWidgetContainer;
+			packageProductDependencies = (
+			);
+			productName = ChargeWidgetContainer;
+			productReference = B20000042FFE46E000EB61D6 /* ChargeWidgetContainer.app */;
+			productType = "com.apple.product-type.application.watchapp2-container";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -198,6 +248,9 @@
 						CreatedOnToolsVersion = 26.6;
 					};
 					A10000082FFE46E000EB61D6 = {
+						CreatedOnToolsVersion = 26.6;
+					};
+					B20000072FFE46E000EB61D6 = {
 						CreatedOnToolsVersion = 26.6;
 					};
 				};
@@ -216,6 +269,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				B20000072FFE46E000EB61D6 /* ChargeWidgetContainer */,
 				38CF6DF62FFE46E000EB61D6 /* ChargeWidget */,
 				A10000082FFE46E000EB61D6 /* ChargeWidgetUI */,
 			);
@@ -231,6 +285,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		A10000122FFE46E000EB61D6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B20000082FFE46E000EB61D6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -261,6 +322,11 @@
 			isa = PBXTargetDependency;
 			target = A10000082FFE46E000EB61D6 /* ChargeWidgetUI */;
 			targetProxy = A10000072FFE46E000EB61D6 /* PBXContainerItemProxy */;
+		};
+		B20000092FFE46E000EB61D6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 38CF6DF62FFE46E000EB61D6 /* ChargeWidget */;
+			targetProxy = B20000022FFE46E000EB61D6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -398,6 +464,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChargeWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ChargeWidget;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -415,10 +482,11 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.igncaio.ChargeWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.igncaio.ChargeWidget.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
+				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx watchos watchsimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -449,6 +517,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChargeWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ChargeWidget;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -466,10 +535,11 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.igncaio.ChargeWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.igncaio.ChargeWidget.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
+				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx watchos watchsimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -511,7 +581,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.igncaio.ChargeWidget.ChargeWidgetUI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.igncaio.ChargeWidget.watchkitapp.ChargeWidgetUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -557,7 +627,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.igncaio.ChargeWidget.ChargeWidgetUI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.igncaio.ChargeWidget.watchkitapp.ChargeWidgetUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -572,6 +642,56 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,4";
 				WATCHOS_DEPLOYMENT_TARGET = 26.5;
+			};
+			name = Release;
+		};
+		B200000C2FFE46E000EB61D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = MessagesApplicationStub;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = LZBRMMD6N3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ChargeWidgetContainer/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ChargeWidget;
+				INFOPLIST_KEY_ITSWatchOnlyContainer = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.igncaio.ChargeWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B200000D2FFE46E000EB61D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = MessagesApplicationStub;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = LZBRMMD6N3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ChargeWidgetContainer/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ChargeWidget;
+				INFOPLIST_KEY_ITSWatchOnlyContainer = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.igncaio.ChargeWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -601,6 +721,15 @@
 			buildConfigurations = (
 				A10000132FFE46E000EB61D6 /* Debug */,
 				A10000142FFE46E000EB61D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B200000B2FFE46E000EB61D6 /* Build configuration list for PBXNativeTarget "ChargeWidgetContainer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B200000C2FFE46E000EB61D6 /* Debug */,
+				B200000D2FFE46E000EB61D6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
